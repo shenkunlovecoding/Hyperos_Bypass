@@ -50,11 +50,14 @@ logf("* Xiaomi HyperOS BootLoader Bypass Python*")
 logf("* By Shenziqian          Version 1.1 *")
 logf("************************************")
 logf("成功几率看脸，多试几次")
+logf("The chances of success are not high, try a few more times")
 logf("请确保您已安装旧版设置")
+logf("Please make sure you have installed the old version settings")
 logf("************************************")
 
 # Main Logic
 logf(f"链接设备中...")
+logf(f"Linking the device")
 
 device.logcat(clear=True)
 device.shell("svc data enable")
@@ -69,7 +72,7 @@ else:
 import os
 os.sleep(5)
 logf("请绑定账号", "y", "*")
-
+logf("Please bind your account", "y", "*")
 args = headers = None
 
 with subprocess.Popen(f"{adb_bin} logcat *:S CloudDeviceStatus:V",
@@ -84,10 +87,12 @@ with subprocess.Popen(f"{adb_bin} logcat *:S CloudDeviceStatus:V",
         if "CloudDeviceStatus: headers:" in output:
             headers = output.split("headers:")[1].strip()
             logf("拦截到请求...")
+            logf("Response blocked")
             process.kill()
             break
             
 logf("重构参数中...")
+logf("Refactoring parameters...")
 data = decrypt_data(args)
 data = data.rstrip()
 logf(data)
@@ -122,7 +127,9 @@ else:
     code = res.get("code")
     if code == 0:
         logf(f"已绑定账号: {res['data']['userId']}", "g")
+        logf(f"Success: {res['data']['userId']}", "g")
         logf("绕过完毕，请使用解锁工具", "g")
+        logf("Please use the unlock tool", "g")
     elif code == 401:
         logf("重新登陆账号 (401)", "y")
     elif code == 20086:
